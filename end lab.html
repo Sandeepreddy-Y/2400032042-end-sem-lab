@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Form (Step Form)</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f3;
+      padding: 30px;
+    }
+
+    .form-container {
+      width: 350px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
+
+    .form-step {
+      display: none;
+    }
+
+    .form-step.active {
+      display: block;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #007bff;
+      color: #fff;
+      font-size: 15px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .prev-btn {
+      background: #6c757d;
+    }
+
+    .prev-btn:hover {
+      background: #545b62;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="form-container">
+
+    <form id="multiStepForm">
+
+      <!-- STEP 1 -->
+      <div class="form-step active" id="step1">
+        <h3>Step 1: Student Name</h3>
+        <label>Student Name</label>
+        <input type="text" id="studentName" required placeholder="Enter student name">
+
+        <div class="buttons">
+          <span></span>
+          <button type="button" onclick="nextStep()">Next</button>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="form-step" id="step2">
+        <h3>Step 2: Gmail ID</h3>
+
+        <label>Gmail</label>
+        <input type="email" id="gmail" required 
+          placeholder="example@gmail.com" 
+          pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$">
+
+        <div class="buttons">
+          <button type="button" class="prev-btn" onclick="prevStep()">Previous</button>
+          <button type="submit">Submit</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+
+  <script>
+    let currentStep = 1;
+
+    function showStep(step) {
+      document.querySelectorAll(".form-step").forEach(s => s.classList.remove("active"));
+      document.getElementById("step" + step).classList.add("active");
+    }
+
+    function nextStep() {
+      let name = document.getElementById("studentName").value.trim();
+      if (name === "") {
+        alert("Please enter student name.");
+        return;
+      }
+      currentStep = 2;
+      showStep(currentStep);
+    }
+
+    function prevStep() {
+      currentStep = 1;
+      showStep(currentStep);
+    }
+
+    document.getElementById("multiStepForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let email = document.getElementById("gmail").value;
+      const pattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+      if (!pattern.test(email)) {
+        alert("Please enter a valid Gmail ending with @gmail.com");
+        return;
+      }
+
+      alert("Form Submitted Successfully!\n\nName: " +
+            document.getElementById("studentName").value +
+            "\nGmail: " + email);
+    });
+  </script>
+
+</body>
+</html>
